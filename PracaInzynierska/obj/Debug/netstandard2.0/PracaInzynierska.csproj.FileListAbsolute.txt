@@ -1,0 +1,47 @@
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.csproj.AssemblyReference.cache
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\App.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\AppShell.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\AboutPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\ItemDetailPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\ItemsPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\LoginPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\NewItemPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\TestPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.AssemblyInfoInputs.cache
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.AssemblyInfo.cs
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.csproj.CoreCompileInputs.cache
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.sourcelink.json
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\PracaInzynierska.deps.json
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\ref\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\PracaInzynierska.pdb
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\ROSLibrary.dll
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\ROSLibrary.pdb
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.csproj.CopyComplete
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\refint\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.pdb
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\PracaInzynierska.deps.json
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\ref\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.0\PracaInzynierska.pdb
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.csproj.AssemblyReference.cache
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\App.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\AppShell.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\AboutPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\ItemDetailPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\ItemsPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\LoginPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\NewItemPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\Views\TestPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.AssemblyInfoInputs.cache
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.AssemblyInfo.cs
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.csproj.CoreCompileInputs.cache
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.sourcelink.json
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\refint\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.0\PracaInzynierska.pdb

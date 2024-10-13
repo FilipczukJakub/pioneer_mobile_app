@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "fZRNTBtFlb0=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.iOS\\PracaInzynierska.iOS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\filip\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\skiasharp\\2.88.7\\skiasharp.2.88.7.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\skiasharp.nativeassets.ios\\2.88.7\\skiasharp.nativeassets.ios.2.88.7.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\system.net.websockets.client\\4.3.2\\system.net.websockets.client.4.3.2.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\touchtracking\\1.2.0\\touchtracking.1.2.0.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\touchtracking.forms\\1.1.0\\touchtracking.forms.1.1.0.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\xamarin.essentials\\1.8.0\\xamarin.essentials.1.8.0.nupkg.sha512",
+    "C:\\Users\\filip\\.nuget\\packages\\xamarin.forms\\5.0.0.2622\\xamarin.forms.5.0.0.2622.nupkg.sha512"
+  ],
+  "logs": []
+}
