@@ -24,12 +24,14 @@ namespace PracaInzynierska.Views
     public sealed partial class AboutPage : ContentPage
     {
         public static ClientWebSocket Client;
+        public static ClientWebSocket Camera;
         private static AboutPage _instance;
         private bool _popUpVisible = false;
         private double joystickWidth;
         private double joystickHeight;
         private double maxSpeed = 1.0;
         private Thread pong_thread;
+        private Thread camera_thread;
         public static AboutPage GetInstance()
         {
             if (_instance == null)
@@ -62,9 +64,15 @@ namespace PracaInzynierska.Views
                 byte[] bytes = udpClient.Receive(ref any_ip);
                 string message = Encoding.ASCII.GetString(bytes);
                 Uri serverUri = new Uri($"ws://{message}:8765");
+                Uri cameraUri = new Uri($"ws://{message}:8766");
                 var client = new ClientWebSocket();
                 await client.ConnectAsync(serverUri, CancellationToken.None);
+                var camera = new ClientWebSocket();
+                await camera.ConnectAsync(cameraUri, CancellationToken.None);
                 Client = client;
+                Camera = camera;
+                camera_thread = new Thread(new ThreadStart(CameraFeed));
+                camera_thread.Start();
                 pong_thread = new Thread(new ThreadStart(Ping));
                 pong_thread.Start();
             }
@@ -76,6 +84,16 @@ namespace PracaInzynierska.Views
                     await App.Current.MainPage.DisplayAlert("UWAGA", "Nie zdołano nawiązać połączenia\nSpróbuj zresetować robota", "Zamknij");
                 }
                     _popUpVisible = false;
+            }
+        }
+
+        public async void CameraFeed()
+        {
+            while (true)
+            {
+                var segment = new ArraySegment<byte>();
+                await Camera.ReceiveAsync(segment, new CancellationTokenSource(20000).Token);
+                Console.WriteLine(segment);
             }
         }
 

@@ -25,11 +25,11 @@ androidgeneratejnimarshalmethods=false
 os=windows_nt
 androidincludedebugsymbols=true
 androidpackagenamingpolicy=lowercasecrc64
-_nugetassetstimestamp=638451483578116821
+_nugetassetstimestamp=638644281016002165
 typemapkind=strings-asm
 androidsupportedabis=arm64-v8a
 armeabi-v7a
 x86
 x86_64
 androidmanifestplaceholders=
-projectfullpath=c:\users\filip\onedrive\pulpit\test inżynierki\pracainzynierska\pracainzynierska.android\pracainzynierska.android.csproj
+projectfullpath=c:\users\filip\onedrive\pulpit\test_inzynierki\pracainzynierska\pracainzynierska.android\pracainzynierska.android.csproj

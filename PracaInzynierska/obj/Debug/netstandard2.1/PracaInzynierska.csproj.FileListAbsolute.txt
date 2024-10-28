@@ -20,3 +20,25 @@ C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzyniersk
 C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\refint\PracaInzynierska.dll
 C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.pdb
 C:\Users\filip\OneDrive\Pulpit\test inżynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\ControlPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.1\PracaInzynierska.deps.json
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.1\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.1\ref\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\bin\Debug\netstandard2.1\PracaInzynierska.pdb
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.csproj.AssemblyReference.cache
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\App.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\AppShell.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\ControlPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\ItemDetailPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\ItemsPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\LoginPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\NewItemPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\TestPage.xaml.g.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.AssemblyInfoInputs.cache
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.AssemblyInfo.cs
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.csproj.CoreCompileInputs.cache
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\XamlC.stamp
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\refint\PracaInzynierska.dll
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.pdb
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.sourcelink.json

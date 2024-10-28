@@ -4572,11 +4572,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
+      "projectUniqueName": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
       "projectName": "PracaInzynierska.Android",
-      "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
+      "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
       "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\obj\\",
+      "outputPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -4597,8 +4597,8 @@
       "frameworks": {
         "monoandroid13.0": {
           "projectReferences": {
-            "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj": {
-              "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj"
+            "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj": {
+              "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj"
             }
           }
         }

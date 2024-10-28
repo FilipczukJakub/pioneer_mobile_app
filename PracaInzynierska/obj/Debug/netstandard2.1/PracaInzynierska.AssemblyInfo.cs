@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PracaInzynierska")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a409ad50618d089106b4cfbea3b68acf34cccef7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2fe00f6cb553e4ac73a91d8fafedbb41f6ece7aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("PracaInzynierska")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PracaInzynierska")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
