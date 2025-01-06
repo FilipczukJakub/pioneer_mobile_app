@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -19,6 +20,8 @@ using TouchTracking.Forms;
 using System.Drawing;
 using PracaInzynierska.Models;
 using System.Collections;
+using System.Linq;
+using PracaInzynierska.ViewModels;
 namespace PracaInzynierska.Views
 {
     public sealed partial class AboutPage : ContentPage
@@ -32,6 +35,7 @@ namespace PracaInzynierska.Views
         private double maxSpeed = 1.0;
         private Thread pong_thread;
         private Thread camera_thread;
+        private ImageSource imageSource;
         public static AboutPage GetInstance()
         {
             if (_instance == null)
@@ -44,13 +48,13 @@ namespace PracaInzynierska.Views
         {
             InitializeComponent();
             GetConnection();
-            speedLabel.Text = "Prędkość: " + maxSpeed;
-
+            //speedLabel.Text = "Prędkość: " + maxSpeed;
         }
 
 
         public async void GetConnection()
         {
+            string message = null;
             try
             {
                 int PORT = 12345;
@@ -62,40 +66,84 @@ namespace PracaInzynierska.Views
                 udpClient.Send(data, data.Length, broadcast_ip);
                 udpClient.Client.ReceiveTimeout = 2000;
                 byte[] bytes = udpClient.Receive(ref any_ip);
-                string message = Encoding.ASCII.GetString(bytes);
+                message = Encoding.ASCII.GetString(bytes);
                 Uri serverUri = new Uri($"ws://{message}:8765");
-                Uri cameraUri = new Uri($"ws://{message}:8766");
                 var client = new ClientWebSocket();
                 await client.ConnectAsync(serverUri, CancellationToken.None);
-                var camera = new ClientWebSocket();
-                await camera.ConnectAsync(cameraUri, CancellationToken.None);
+                
                 Client = client;
-                Camera = camera;
-                camera_thread = new Thread(new ThreadStart(CameraFeed));
-                camera_thread.Start();
+                
                 pong_thread = new Thread(new ThreadStart(Ping));
                 pong_thread.Start();
             }
             catch (Exception ex)
             {
-                if (!_popUpVisible)
+                Console.WriteLine(ex.Message);
+                if (!_popUpVisible) 
                 {
                     _popUpVisible = true;
                     await App.Current.MainPage.DisplayAlert("UWAGA", "Nie zdołano nawiązać połączenia\nSpróbuj zresetować robota", "Zamknij");
                 }
                     _popUpVisible = false;
             }
+            try
+            {
+                if (message != null) {
+                    Uri cameraUri = new Uri($"ws://{message}:8767");
+                    var camera = new ClientWebSocket();
+                    await camera.ConnectAsync(cameraUri, CancellationToken.None);
+                    Camera = camera;
+                    camera_thread = new Thread(new ThreadStart(CameraFeed));
+                    camera_thread.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                if (!_popUpVisible)
+                {
+                    _popUpVisible = true;
+                    await App.Current.MainPage.DisplayAlert("UWAGA", "Nie zdołano nawiązać połączenia wideo\nSpróbuj zresetować robota", "Zamknij");
+                }
+                _popUpVisible = false;
+            }
         }
 
         public async void CameraFeed()
         {
+            var buffer = new byte[1024];
+            var recievedData = new  List<byte>();
             while (true)
             {
-                var segment = new ArraySegment<byte>();
-                await Camera.ReceiveAsync(segment, new CancellationTokenSource(20000).Token);
-                Console.WriteLine(segment);
+                var result = await Camera.ReceiveAsync(new ArraySegment<byte>(buffer), new CancellationTokenSource(20000).Token);
+                recievedData.AddRange(buffer.Take(result.Count));
+                Array.Clear(buffer, 0, buffer.Length);
+                if (result.EndOfMessage) {
+                    
+                    imageSource = ByteArrayToImageSource(recievedData.ToArray());
+
+                    if (background_image1.Opacity == 1)
+                    {
+                        background_image2.Opacity = background_image2.Opacity == 1 ? 0 : 1;
+                        background_image1.Source = imageSource;
+                        background_image1.Opacity = background_image1.Opacity == 1 ? 0 : 1;
+                    }
+                    else
+                    {
+                        background_image1.Opacity = background_image1.Opacity == 1 ? 0 : 1;
+                        background_image2.Source = imageSource;
+                        background_image2.Opacity = background_image2.Opacity == 1 ? 0 : 1;
+                    }
+                    recievedData.Clear();
+                }
             }
         }
+
+        public ImageSource ByteArrayToImageSource(byte[] imageData)
+        {
+            return ImageSource.FromStream(() => new MemoryStream(imageData));
+        }
+
 
         public async void Ping()
         {
@@ -110,6 +158,7 @@ namespace PracaInzynierska.Views
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 pong_thread.Abort();
             }
         }
@@ -117,13 +166,8 @@ namespace PracaInzynierska.Views
         {
             double value = e.NewValue;
             maxSpeed = value;
-            speedLabel.Text = "Prędkość: " + maxSpeed;
+            //speedLabel.Text = "Prędkość: " + maxSpeed;
 
-        }
-
-        public async void StartAvoiding()
-        {
-            SendMessage("message:start_avoiding");
         }
 
         async void SafetyStop(object sender, EventArgs e)
@@ -133,7 +177,7 @@ namespace PracaInzynierska.Views
             udpClient.EnableBroadcast = true;
             IPEndPoint broadcast_ip = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
             var data = Encoding.ASCII.GetBytes("stop");
-            udpClient.Send(data, data.Length, broadcast_ip);
+            await udpClient.SendAsync(data, data.Length, broadcast_ip);
         }
         async void SendMessage(String message)
         {
@@ -144,6 +188,7 @@ namespace PracaInzynierska.Views
                 await Client.SendAsync(segment, WebSocketMessageType.Text, true, CancellationToken.None);
             }catch(Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 if (!_popUpVisible)
                 {
                     _popUpVisible = true;
@@ -167,16 +212,7 @@ namespace PracaInzynierska.Views
             joystickHeight = Joystick.HeightRequest;
         }
 
-        public void CustomClicked(object sender, EventArgs args)
-        {
-            
-            if(sender is Button button)
-            {
-                Console.WriteLine("Moved " + button.Text);
-            }
-        }
-
-        public void CustomPressed(object sender, EventArgs args)
+        public void CustomMovePressed(object sender, EventArgs args)
         {
             if (sender is Button button)
             {
@@ -198,21 +234,71 @@ namespace PracaInzynierska.Views
                 }
                 var jsonString = JsonConvert.SerializeObject(twist);
                 Console.WriteLine(jsonString);
-                SendMessage(jsonString);
+                SendMessage("move###" + jsonString);
             }
         }
 
-        public void CustomReleased(object sender, EventArgs args)
+        public void CustomMoveReleased(object sender, EventArgs args)
         {
             if (sender is Button button)
             {
                 Twist twist = new Twist();
                 var jsonString = JsonConvert.SerializeObject(twist);
-                SendMessage(jsonString);
+                SendMessage("move###" + jsonString);
             }
         }
 
-        public void OnTouch(object sender, TouchActionEventArgs args)
+        public void CustomGripperPressed(object sender, EventArgs args)
+        {
+            if (sender is Button button)
+            {
+                int command = 2;
+                switch (button.Text)
+                {
+                    case "up":
+                        command = 3;
+                        break;
+                    case "down":
+                        command = 4;
+                        break;
+                    case "open":
+                        command = 0;
+                        break;
+                    case "close":
+                        command = 1;
+                        break;
+                }
+                var jsonString = JsonConvert.SerializeObject(command);
+                SendMessage("gripper###" + jsonString);
+            }
+        }
+
+        public void CustomGripperReleased(object sender, EventArgs args)
+        {
+            if (sender is Button button)
+            {
+                int command = 2;
+                switch (button.Text)
+                {
+                    case "up":
+                        command = 5;
+                        break;
+                    case "down":
+                        command = 5;
+                        break;
+                    case "open":
+                        command = 2;
+                        break;
+                    case "close":
+                        command = 2;
+                        break;
+                }
+                var jsonString = JsonConvert.SerializeObject(command);
+                SendMessage("gripper###" + jsonString);
+            }
+        }
+
+        public void OnMoveTouch(object sender, TouchActionEventArgs args)
         {
             Twist twist = new Twist();
             if (args.Type != TouchActionType.Released)
@@ -233,7 +319,7 @@ namespace PracaInzynierska.Views
             moveSpeedLabel.Text = "Ruch: " + twist.Linear["x"].ToString() + (twist.Linear["x"] > 0 ? " (przód)" : " (tył)");
             rotSpeedLabel.Text = "Obrót: " + twist.Angular["z"].ToString() + (twist.Angular["z"] > 0 ? " (lewo)" : " (prawo)");
             var jsonString = JsonConvert.SerializeObject(twist);
-            SendMessage(jsonString);
+            SendMessage("move###" + jsonString);
         }
 
     }

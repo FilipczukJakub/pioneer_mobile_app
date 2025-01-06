@@ -26,10 +26,10 @@ namespace PracaInzynierska
             page.GetConnection();
         }
 
-        private async void AvoidObstacles(object sender, EventArgs e)
-        {
-            AboutPage page = AboutPage.GetInstance();
-            page.StartAvoiding();
-        }
+        //private async void AvoidObstacles(object sender, EventArgs e)
+        //{
+        //    AboutPage page = AboutPage.GetInstance();
+        //    page.StartAvoiding();
+        //}
     }
 }

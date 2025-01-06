@@ -1510,3 +1510,4 @@ C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska.Android\obj\Debug\130\stamp\_GenerateJavaStubs.stamp
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska.Android\obj\Debug\130\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska.Android\obj\Debug\130\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska.Android\obj\Debug\130\res\drawable\images.png
