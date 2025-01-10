@@ -3,7 +3,6 @@ using System.IO;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using PracaInzynierska.CustomElements;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using System.Threading;
@@ -36,6 +35,8 @@ namespace PracaInzynierska.Views
         private Thread pong_thread;
         private Thread camera_thread;
         private ImageSource imageSource;
+        private string robotIp;
+        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
         public static AboutPage GetInstance()
         {
             if (_instance == null)
@@ -47,14 +48,64 @@ namespace PracaInzynierska.Views
         public AboutPage()
         {
             InitializeComponent();
-            GetConnection();
-            //speedLabel.Text = "Prędkość: " + maxSpeed;
+            CreateConnection();
         }
 
-
-        public async void GetConnection()
+        private void StopThreads()
         {
-            string message = null;
+            this._cancellationTokenSource.Cancel();
+        }
+
+        public async void CreateConnection(ConnectionMode mode = ConnectionMode.Full)
+        {
+            StopThreads();
+            if (!Object.Equals(Client,null) && Client.State != WebSocketState.Aborted)
+            {
+                await Client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Reconnection", CancellationToken.None);
+            }
+            if (!Object.Equals(Camera, null) && Camera.State != WebSocketState.Aborted)
+            {
+                await Camera.CloseAsync(WebSocketCloseStatus.NormalClosure, "Reconnection", CancellationToken.None);
+
+            }
+            //if (!Object.Equals(camera_thread, null) && camera_thread.ThreadState == ThreadState.Running)
+            //{
+            //    camera_thread.Abort();
+            //}
+            //if (!Object.Equals(pong_thread,null) && pong_thread.ThreadState == ThreadState.Running)
+            //{
+            //    pong_thread.Abort();
+            //}
+            try
+            {
+                
+                robotIp = await BroadcastMessage();
+                if(mode == ConnectionMode.Full || mode == ConnectionMode.Movement)
+                    MovementConnection();
+                if(mode == ConnectionMode.Full || mode == ConnectionMode.Camera)
+                    CameraConnection();
+                AlertWindow("Sukces", "Nawiązano połączenie z robotem");
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                AlertWindow("UWAGA", "Nie zdołano pozyskać adresu robota\nSpróbuj zresetować robota");
+            }
+        }
+
+        private async void AlertWindow(string header, string message)
+        {
+            if (!_popUpVisible)
+            {
+                _popUpVisible = true;
+                await App.Current.MainPage.DisplayAlert(header, message, "Zamknij");
+            }
+            _popUpVisible = false;
+        }
+
+        private async Task<string> BroadcastMessage()
+        {
             try
             {
                 int PORT = 12345;
@@ -66,76 +117,92 @@ namespace PracaInzynierska.Views
                 udpClient.Send(data, data.Length, broadcast_ip);
                 udpClient.Client.ReceiveTimeout = 2000;
                 byte[] bytes = udpClient.Receive(ref any_ip);
-                message = Encoding.ASCII.GetString(bytes);
-                Uri serverUri = new Uri($"ws://{message}:8765");
-                var client = new ClientWebSocket();
-                await client.ConnectAsync(serverUri, CancellationToken.None);
-                
-                Client = client;
-                
-                pong_thread = new Thread(new ThreadStart(Ping));
-                pong_thread.Start();
+                //robotIp = Encoding.ASCII.GetString(bytes);
+                return Encoding.ASCII.GetString(bytes);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                if (!_popUpVisible) 
-                {
-                    _popUpVisible = true;
-                    await App.Current.MainPage.DisplayAlert("UWAGA", "Nie zdołano nawiązać połączenia\nSpróbuj zresetować robota", "Zamknij");
-                }
-                    _popUpVisible = false;
+                AlertWindow("UWAGA", "Nie zdołano pozyskać adresu robota\nSpróbuj zresetować robota");
+                return null;
             }
+        }
+
+        public async void MovementConnection()
+        {
             try
             {
-                if (message != null) {
-                    Uri cameraUri = new Uri($"ws://{message}:8767");
-                    var camera = new ClientWebSocket();
-                    await camera.ConnectAsync(cameraUri, CancellationToken.None);
-                    Camera = camera;
-                    camera_thread = new Thread(new ThreadStart(CameraFeed));
-                    camera_thread.Start();
-                }
+                Uri serverUri = new Uri($"ws://{robotIp}:8765");
+                var client = new ClientWebSocket();
+                await client.ConnectAsync(serverUri, CancellationToken.None);
+
+                Client = client;
+
+                pong_thread = new Thread(new ThreadStart(Ping));
+                pong_thread.Start();
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                AlertWindow("UWAGA", "Nie zdołano nawiązać połączenia\nSpróbuj zresetować robota");
+            }  
+        }
+
+        public async void CameraConnection()
+        {
+            try
+            {
+                Uri cameraUri = new Uri($"ws://{robotIp}:8767");
+                var camera = new ClientWebSocket();
+                await camera.ConnectAsync(cameraUri, CancellationToken.None);
+                Camera = camera;
+                camera_thread = new Thread(new ThreadStart(CameraFeed));
+                camera_thread.Start();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                if (!_popUpVisible)
-                {
-                    _popUpVisible = true;
-                    await App.Current.MainPage.DisplayAlert("UWAGA", "Nie zdołano nawiązać połączenia wideo\nSpróbuj zresetować robota", "Zamknij");
-                }
-                _popUpVisible = false;
+                AlertWindow("UWAGA", "Nie zdołano nawiązać połączenia z kamerą\nSpróbuj zresetować robota");
             }
         }
 
         public async void CameraFeed()
         {
-            var buffer = new byte[1024];
-            var recievedData = new  List<byte>();
-            while (true)
+            var cancellationToken = this._cancellationTokenSource.Token;
+            try
             {
-                var result = await Camera.ReceiveAsync(new ArraySegment<byte>(buffer), new CancellationTokenSource(20000).Token);
-                recievedData.AddRange(buffer.Take(result.Count));
-                Array.Clear(buffer, 0, buffer.Length);
-                if (result.EndOfMessage) {
-                    
-                    imageSource = ByteArrayToImageSource(recievedData.ToArray());
+                var buffer = new byte[1024];
+                var recievedData = new MemoryStream();
+                var result = new WebSocketReceiveResult(0,WebSocketMessageType.Binary,false);
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    result = await Camera.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
+                    recievedData.Write(buffer,0,result.Count);
+                    if (result.EndOfMessage)
+                    {
 
-                    if (background_image1.Opacity == 1)
-                    {
-                        background_image2.Opacity = background_image2.Opacity == 1 ? 0 : 1;
-                        background_image1.Source = imageSource;
-                        background_image1.Opacity = background_image1.Opacity == 1 ? 0 : 1;
+                        imageSource = ByteArrayToImageSource(recievedData.ToArray());
+                        recievedData.SetLength(0);
+                        MainThread.BeginInvokeOnMainThread(() =>
+                        {
+                            if (background_image1.Opacity == 1)
+                            {
+                                background_image2.Opacity = background_image2.Opacity == 1 ? 0 : 1;
+                                background_image1.Source = imageSource;
+                                background_image1.Opacity = background_image1.Opacity == 1 ? 0 : 1;
+                            }
+                            else
+                            {
+                                background_image1.Opacity = background_image1.Opacity == 1 ? 0 : 1;
+                                background_image2.Source = imageSource;
+                                background_image2.Opacity = background_image2.Opacity == 1 ? 0 : 1;
+                            }
+                        });
                     }
-                    else
-                    {
-                        background_image1.Opacity = background_image1.Opacity == 1 ? 0 : 1;
-                        background_image2.Source = imageSource;
-                        background_image2.Opacity = background_image2.Opacity == 1 ? 0 : 1;
-                    }
-                    recievedData.Clear();
                 }
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                AlertWindow("UWAGA", "Utracono połączenie z kamerą");
             }
         }
 
@@ -145,29 +212,25 @@ namespace PracaInzynierska.Views
         }
 
 
-        public async void Ping()
+        public void Ping()
         {
+            var cancellationToken = this._cancellationTokenSource.Token;
             try
             {
                 Console.WriteLine("Ping started");
-                while (true)
+                var segment = new ArraySegment<byte>(new byte[1024]);
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    var segment = new ArraySegment<byte>(new byte[1024]);
-                    await Client.ReceiveAsync(segment,new CancellationTokenSource(20000).Token);
+                    Client.ReceiveAsync(segment,cancellationToken);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                AlertWindow("UWAGA", "System PING nie odpowiada");
+
                 pong_thread.Abort();
             }
-        }
-        public void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            double value = e.NewValue;
-            maxSpeed = value;
-            //speedLabel.Text = "Prędkość: " + maxSpeed;
-
         }
 
         async void SafetyStop(object sender, EventArgs e)
@@ -179,22 +242,17 @@ namespace PracaInzynierska.Views
             var data = Encoding.ASCII.GetBytes("stop");
             await udpClient.SendAsync(data, data.Length, broadcast_ip);
         }
-        async void SendMessage(String message)
+        void SendMessage(String message)
         {
             try
             {
                 var byteMessage = Encoding.UTF8.GetBytes(message);
                 var segment = new ArraySegment<byte>(byteMessage);
-                await Client.SendAsync(segment, WebSocketMessageType.Text, true, CancellationToken.None);
+                Client.SendAsync(segment, WebSocketMessageType.Text, true, CancellationToken.None);
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                if (!_popUpVisible)
-                {
-                    _popUpVisible = true;
-                    await App.Current.MainPage.DisplayAlert("UWAGA", "Utracono połączenie z robotem\nSpróbuj ponownie się połączyć", "Zamknij");
-                }
-                _popUpVisible = false;
+                AlertWindow("UWAGA", "Utracono połączenie z robotem\nSpróbuj połączyć się ponownie");
             }
 
         }

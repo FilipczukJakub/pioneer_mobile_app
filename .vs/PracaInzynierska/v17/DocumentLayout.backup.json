@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8B27A266-2B0E-4C8B-84EF-23A411327924}|PracaInzynierska\\PracaInzynierska.csproj|c:\\users\\filip\\onedrive\\pulpit\\test_inzynierki\\pracainzynierska\\pracainzynierska\\views\\controlpage.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}",
-      "RelativeMoniker": "D:0:0:{8B27A266-2B0E-4C8B-84EF-23A411327924}|PracaInzynierska\\PracaInzynierska.csproj|solutionrelative:pracainzynierska\\views\\controlpage.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8B27A266-2B0E-4C8B-84EF-23A411327924}|PracaInzynierska\\PracaInzynierska.csproj|c:\\users\\filip\\onedrive\\pulpit\\test_inzynierki\\pracainzynierska\\pracainzynierska\\views\\controlpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8B27A266-2B0E-4C8B-84EF-23A411327924}|PracaInzynierska\\PracaInzynierska.csproj|solutionrelative:pracainzynierska\\views\\controlpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8B27A266-2B0E-4C8B-84EF-23A411327924}|PracaInzynierska\\PracaInzynierska.csproj|c:\\users\\filip\\onedrive\\pulpit\\test_inzynierki\\pracainzynierska\\pracainzynierska\\appshell.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}",
+      "RelativeMoniker": "D:0:0:{8B27A266-2B0E-4C8B-84EF-23A411327924}|PracaInzynierska\\PracaInzynierska.csproj|solutionrelative:pracainzynierska\\appshell.xaml||{2974C621-7033-421A-B08A-11D27B021D1B}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8B27A266-2B0E-4C8B-84EF-23A411327924}|PracaInzynierska\\PracaInzynierska.csproj|c:\\users\\filip\\onedrive\\pulpit\\test_inzynierki\\pracainzynierska\\pracainzynierska\\appshell.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,41 +42,41 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppShell.xaml",
+              "DocumentMoniker": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\AppShell.xaml",
+              "RelativeDocumentMoniker": "PracaInzynierska\\AppShell.xaml",
+              "ToolTip": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\AppShell.xaml",
+              "RelativeToolTip": "PracaInzynierska\\AppShell.xaml",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAhwFIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-01-10T16:57:53.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "AppShell.xaml.cs",
               "DocumentMoniker": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\AppShell.xaml.cs",
               "RelativeDocumentMoniker": "PracaInzynierska\\AppShell.xaml.cs",
               "ToolTip": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\AppShell.xaml.cs",
               "RelativeToolTip": "PracaInzynierska\\AppShell.xaml.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAvwCAAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAAAgwCkAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T12:47:40.16Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ControlPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\Views\\ControlPage.xaml.cs",
-              "RelativeDocumentMoniker": "PracaInzynierska\\Views\\ControlPage.xaml.cs",
-              "ToolTip": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\Views\\ControlPage.xaml.cs",
-              "RelativeToolTip": "PracaInzynierska\\Views\\ControlPage.xaml.cs",
-              "ViewState": "AgIAAAIBAAAAAAAAAAAlwKgAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T12:36:29.216Z",
+              "WhenOpened": "2025-01-10T16:57:26.999Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ControlPage.xaml",
-              "DocumentMoniker": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\Views\\ControlPage.xaml",
-              "RelativeDocumentMoniker": "PracaInzynierska\\Views\\ControlPage.xaml",
-              "ToolTip": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\Views\\ControlPage.xaml",
-              "RelativeToolTip": "PracaInzynierska\\Views\\ControlPage.xaml",
-              "ViewState": "AgIAADAAAAAAAAAAAAAAwD8AAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-28T11:49:39.828Z",
+              "Title": "ControlPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\Views\\ControlPage.xaml.cs",
+              "RelativeDocumentMoniker": "PracaInzynierska\\Views\\ControlPage.xaml.cs",
+              "ToolTip": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\Views\\ControlPage.xaml.cs",
+              "RelativeToolTip": "PracaInzynierska\\Views\\ControlPage.xaml.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAuwE0AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T16:57:01.279Z",
               "EditorCaption": ""
             }
           ]

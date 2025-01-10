@@ -42,4 +42,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CustomElements\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
 </Project>

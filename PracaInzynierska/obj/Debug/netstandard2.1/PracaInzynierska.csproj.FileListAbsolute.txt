@@ -29,10 +29,6 @@ C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\App.xaml.g.cs
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\AppShell.xaml.g.cs
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\ControlPage.xaml.g.cs
-C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\ItemDetailPage.xaml.g.cs
-C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\ItemsPage.xaml.g.cs
-C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\LoginPage.xaml.g.cs
-C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\NewItemPage.xaml.g.cs
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\Views\TestPage.xaml.g.cs
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.AssemblyInfoInputs.cache
 C:\Users\filip\OneDrive\Pulpit\test_inzynierki\PracaInzynierska\PracaInzynierska\obj\Debug\netstandard2.1\PracaInzynierska.AssemblyInfo.cs
