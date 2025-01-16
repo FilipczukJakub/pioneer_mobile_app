@@ -4,7 +4,6 @@
              xmlns:tt="clr-namespace:TouchTracking.Forms;assembly=TouchTracking.Forms"
              x:Class="PracaInzynierska.Views.AboutPage"
              xmlns:vm="clr-namespace:PracaInzynierska.ViewModels"
-             xmlns:custom="clr-namespace:PracaInzynierska.CustomElements"
              Title="{Binding Title}">
             
     
@@ -14,8 +13,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <Image x:Name="background_image1" Opacity="1" Aspect="AspectFill" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>
-        <Image x:Name="background_image2" Opacity="0" Aspect="AspectFill" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>
+        <WebView x:Name="cameraFeed" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"></WebView>
+        <!--<Image x:Name="background_image1" Opacity="1" Aspect="AspectFill" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>
+        <Image x:Name="background_image2" Opacity="0" Aspect="AspectFill" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>-->
         <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
             <Button x:Name="ChangeToJoystick"

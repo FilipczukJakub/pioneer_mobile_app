@@ -26,17 +26,14 @@ namespace PracaInzynierska.Views
     public sealed partial class AboutPage : ContentPage
     {
         public static ClientWebSocket Client;
-        public static ClientWebSocket Camera;
         private static AboutPage _instance;
         private bool _popUpVisible = false;
         private double joystickWidth;
         private double joystickHeight;
         private double maxSpeed = 1.0;
-        private Thread pong_thread;
-        private Thread camera_thread;
-        private ImageSource imageSource;
         private string robotIp;
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _backgroundTaskCancellationTokenSource;
+        private bool connecting = false;
         public static AboutPage GetInstance()
         {
             if (_instance == null)
@@ -48,50 +45,60 @@ namespace PracaInzynierska.Views
         public AboutPage()
         {
             InitializeComponent();
+            _backgroundTaskCancellationTokenSource = new CancellationTokenSource();
             CreateConnection();
+
         }
 
-        private void StopThreads()
+        private void StopTasks()
         {
-            this._cancellationTokenSource.Cancel();
+            _backgroundTaskCancellationTokenSource?.Cancel();
+            _backgroundTaskCancellationTokenSource.Dispose();
+            _backgroundTaskCancellationTokenSource = new CancellationTokenSource();
         }
 
-        public async void CreateConnection(ConnectionMode mode = ConnectionMode.Full)
+        private async Task Disconnect()
         {
-            StopThreads();
-            if (!Object.Equals(Client,null) && Client.State != WebSocketState.Aborted)
-            {
-                await Client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Reconnection", CancellationToken.None);
-            }
-            if (!Object.Equals(Camera, null) && Camera.State != WebSocketState.Aborted)
-            {
-                await Camera.CloseAsync(WebSocketCloseStatus.NormalClosure, "Reconnection", CancellationToken.None);
-
-            }
-            //if (!Object.Equals(camera_thread, null) && camera_thread.ThreadState == ThreadState.Running)
-            //{
-            //    camera_thread.Abort();
-            //}
-            //if (!Object.Equals(pong_thread,null) && pong_thread.ThreadState == ThreadState.Running)
-            //{
-            //    pong_thread.Abort();
-            //}
+            StopTasks();
             try
             {
-                
-                robotIp = await BroadcastMessage();
-                if(mode == ConnectionMode.Full || mode == ConnectionMode.Movement)
-                    MovementConnection();
-                if(mode == ConnectionMode.Full || mode == ConnectionMode.Camera)
-                    CameraConnection();
-                AlertWindow("Sukces", "Nawiązano połączenie z robotem");
-
+                if (!Object.Equals(Client, null) && Client.State == WebSocketState.Open)
+                {
+                    await Client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Reconnection", CancellationToken.None);
+                    Client.Dispose();
+                    Client = null;
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                AlertWindow("UWAGA", "Nie zdołano pozyskać adresu robota\nSpróbuj zresetować robota");
             }
+        }
+
+        public async void CreateConnection(ConnectionMode mode = ConnectionMode.Full)
+        {
+            if (!connecting)
+            {
+                connecting = true;
+                await Disconnect();
+                try
+                {
+
+                    robotIp = await BroadcastMessage();
+                    if (mode == ConnectionMode.Full || mode == ConnectionMode.Movement)
+                        await MovementConnection();
+                    cameraFeed.Source = $"http://{robotIp}:8767/index.html";
+                    AlertWindow("Sukces", "Nawiązano połączenie z robotem");
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    AlertWindow("UWAGA", "Nie zdołano pozyskać adresu robota\nSpróbuj zresetować robota");
+                }
+                connecting = false;
+            }
+            
         }
 
         private async void AlertWindow(string header, string message)
@@ -111,14 +118,13 @@ namespace PracaInzynierska.Views
                 int PORT = 12345;
                 UdpClient udpClient = new UdpClient();
                 udpClient.EnableBroadcast = true;
-                IPEndPoint broadcast_ip = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
+                IPEndPoint broadcastIp = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
                 IPEndPoint any_ip = new IPEndPoint(IPAddress.Any, 0);
                 var data = Encoding.ASCII.GetBytes("ip_request");
-                udpClient.Send(data, data.Length, broadcast_ip);
+                await udpClient.SendAsync(data, data.Length, broadcastIp);
                 udpClient.Client.ReceiveTimeout = 2000;
-                byte[] bytes = udpClient.Receive(ref any_ip);
-                //robotIp = Encoding.ASCII.GetString(bytes);
-                return Encoding.ASCII.GetString(bytes);
+                var result = udpClient.ReceiveAsync();
+                return Encoding.ASCII.GetString(result.Result.Buffer);
             }
             catch(Exception ex)
             {
@@ -128,18 +134,17 @@ namespace PracaInzynierska.Views
             }
         }
 
-        public async void MovementConnection()
+        public async Task MovementConnection()
         {
             try
             {
                 Uri serverUri = new Uri($"ws://{robotIp}:8765");
                 var client = new ClientWebSocket();
-                await client.ConnectAsync(serverUri, CancellationToken.None);
+                await client.ConnectAsync(serverUri, _backgroundTaskCancellationTokenSource.Token);
 
                 Client = client;
 
-                pong_thread = new Thread(new ThreadStart(Ping));
-                pong_thread.Start();
+                _ = Task.Run(Ping, _backgroundTaskCancellationTokenSource.Token);
             }catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -147,64 +152,6 @@ namespace PracaInzynierska.Views
             }  
         }
 
-        public async void CameraConnection()
-        {
-            try
-            {
-                Uri cameraUri = new Uri($"ws://{robotIp}:8767");
-                var camera = new ClientWebSocket();
-                await camera.ConnectAsync(cameraUri, CancellationToken.None);
-                Camera = camera;
-                camera_thread = new Thread(new ThreadStart(CameraFeed));
-                camera_thread.Start();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                AlertWindow("UWAGA", "Nie zdołano nawiązać połączenia z kamerą\nSpróbuj zresetować robota");
-            }
-        }
-
-        public async void CameraFeed()
-        {
-            var cancellationToken = this._cancellationTokenSource.Token;
-            try
-            {
-                var buffer = new byte[1024];
-                var recievedData = new MemoryStream();
-                var result = new WebSocketReceiveResult(0,WebSocketMessageType.Binary,false);
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    result = await Camera.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
-                    recievedData.Write(buffer,0,result.Count);
-                    if (result.EndOfMessage)
-                    {
-
-                        imageSource = ByteArrayToImageSource(recievedData.ToArray());
-                        recievedData.SetLength(0);
-                        MainThread.BeginInvokeOnMainThread(() =>
-                        {
-                            if (background_image1.Opacity == 1)
-                            {
-                                background_image2.Opacity = background_image2.Opacity == 1 ? 0 : 1;
-                                background_image1.Source = imageSource;
-                                background_image1.Opacity = background_image1.Opacity == 1 ? 0 : 1;
-                            }
-                            else
-                            {
-                                background_image1.Opacity = background_image1.Opacity == 1 ? 0 : 1;
-                                background_image2.Source = imageSource;
-                                background_image2.Opacity = background_image2.Opacity == 1 ? 0 : 1;
-                            }
-                        });
-                    }
-                }
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-                AlertWindow("UWAGA", "Utracono połączenie z kamerą");
-            }
-        }
 
         public ImageSource ByteArrayToImageSource(byte[] imageData)
         {
@@ -212,24 +159,28 @@ namespace PracaInzynierska.Views
         }
 
 
-        public void Ping()
+        public async Task Ping()
         {
-            var cancellationToken = this._cancellationTokenSource.Token;
             try
             {
-                Console.WriteLine("Ping started");
+                var cancellationToken = this._backgroundTaskCancellationTokenSource.Token;
                 var segment = new ArraySegment<byte>(new byte[1024]);
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    Client.ReceiveAsync(segment,cancellationToken);
+                    try
+                    {
+                        await Client.ReceiveAsync(segment, cancellationToken);
+                    }
+                    catch (Exception ex) {
+                        break;
+
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 AlertWindow("UWAGA", "System PING nie odpowiada");
-
-                pong_thread.Abort();
             }
         }
 
