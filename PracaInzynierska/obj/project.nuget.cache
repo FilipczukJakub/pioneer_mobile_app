@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3c1ydYB3Rl8=",
+  "dgSpecHash": "eWu0evNf8Jc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj",
+  "projectFilePath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\filip\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\filip\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",

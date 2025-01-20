@@ -22,14 +22,31 @@ namespace PracaInzynierska
 
         private async void OnReconnectClicked(object sender, EventArgs e)
         {
-            AboutPage page = AboutPage.GetInstance();
-            page.GetConnection();
+            try
+            {
+                AboutPage page = AboutPage.GetInstance();
+                page.CreateConnection();
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Błąd", "Błąd w AppShell", "Zamknij");
+
+            }
+
         }
 
-        private async void AvoidObstacles(object sender, EventArgs e)
+        private async void OnCameraClicked(object sender, EventArgs e)
         {
-            AboutPage page = AboutPage.GetInstance();
-            page.StartAvoiding();
+            try { 
+                AboutPage page = AboutPage.GetInstance();
+                page.CreateConnection();
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Błąd", "Błąd w AppShell", "Zamknij");
+
+            }
         }
+
     }
 }

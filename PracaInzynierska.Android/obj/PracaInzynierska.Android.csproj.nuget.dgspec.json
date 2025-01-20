@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj": {}
+    "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj": {}
   },
   "projects": {
-    "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj": {
+    "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
+        "projectUniqueName": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
         "projectName": "PracaInzynierska.Android",
-        "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
+        "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
         "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\obj\\",
+        "outputPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
@@ -32,8 +32,8 @@
         "frameworks": {
           "monoandroid13.0": {
             "projectReferences": {
-              "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj": {
-                "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj"
+              "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj": {
+                "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj"
               }
             }
           }
@@ -59,14 +59,14 @@
         }
       }
     },
-    "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj": {
+    "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj",
+        "projectUniqueName": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj",
         "projectName": "PracaInzynierska",
-        "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj",
+        "projectPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\PracaInzynierska.csproj",
         "packagesPath": "C:\\Users\\filip\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska\\obj\\",
+        "outputPath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

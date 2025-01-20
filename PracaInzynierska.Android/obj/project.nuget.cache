@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "MsUJGtaful8=",
+  "dgSpecHash": "RRh0SH/sBXI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test inżynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
+  "projectFilePath": "C:\\Users\\filip\\OneDrive\\Pulpit\\test_inzynierki\\PracaInzynierska\\PracaInzynierska.Android\\PracaInzynierska.Android.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\filip\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\filip\\.nuget\\packages\\skiasharp\\2.88.7\\skiasharp.2.88.7.nupkg.sha512",

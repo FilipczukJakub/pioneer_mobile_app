@@ -4,76 +4,96 @@
              xmlns:tt="clr-namespace:TouchTracking.Forms;assembly=TouchTracking.Forms"
              x:Class="PracaInzynierska.Views.AboutPage"
              xmlns:vm="clr-namespace:PracaInzynierska.ViewModels"
-             xmlns:custom="clr-namespace:PracaInzynierska.CustomElements"
              Title="{Binding Title}">
-    
-    <ContentPage.BindingContext>
-        <vm:AboutViewModel />
-    </ContentPage.BindingContext>
+            
     
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Accent">#96d1ff</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
+    <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <WebView x:Name="cameraFeed" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"></WebView>
+        <!--<Image x:Name="background_image1" Opacity="1" Aspect="AspectFill" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>
+        <Image x:Name="background_image2" Opacity="0" Aspect="AspectFill" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"/>-->
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
-    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <Button x:Name="ChangeToJoystick"
+            <Button x:Name="ChangeToJoystick"
             Margin="0,10,0,0" 
             Text="Joystick"
             Clicked="ChangeControls"
-            BackgroundColor="{StaticResource Primary}"
+            BorderColor="{StaticResource Primary}"
+            BorderWidth="2"
+            BackgroundColor="#50000000"
             TextColor="White" 
             IsVisible="true"
         />
-        <Button x:Name="ChangeToArrows"
+            <Button x:Name="ChangeToArrows"
             Margin="0,10,0,0" 
             Text="Strzałki"
             Clicked="ChangeControls"
-            BackgroundColor="{StaticResource Primary}"
-            TextColor="White" 
+            BorderColor="{StaticResource Primary}"
+            BorderWidth="2"
+            BackgroundColor="#50000000"
+            TextColor="White"
             IsVisible="false"
         />
-        <Button
+            <Button
             Margin="0,10,0,0" 
             Text="STOP"
             Clicked="SafetyStop"
-            BackgroundColor="Red"
-            TextColor="Black" 
+            BorderColor="Red"
+            BorderWidth="2"
+            BackgroundColor="#50000000"
+            TextColor="White" 
             IsVisible="true"
         />
-        <Label x:Name="speedLabel" TextColor="Black" Text="" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"></Label>
-        <Slider MinimumTrackColor="Red" MaximumTrackColor="Blue" Margin="20,20,20,20" Maximum="5" Minimum="1" ValueChanged="OnSliderValueChanged"></Slider>
-        <Label IsVisible="false" x:Name="moveInfoLabel" HorizontalOptions="Center"  TextColor="Black" Text="Obecna prędkość"></Label>
-        <Label IsVisible="false" x:Name="moveSpeedLabel" HorizontalOptions="Center"  TextColor="Black" Text="Ruch: 0.0"></Label>
-        <Label IsVisible="false" x:Name="rotSpeedLabel" HorizontalOptions="Center"  TextColor="Black" Text="Obrót: 0.0"></Label>
-        <Grid x:Name="Arrows" Margin="0,100,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+            <Grid x:Name="Gripper" Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-            <Button x:Name="forward" HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="1" Grid.Row="0" Text="forward"></Button>
-            <Button x:Name="left" HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="0" Grid.Row="1" Text="left"></Button>
-            <Button x:Name="right" HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="2" Grid.Row="1" Text="right"></Button>
-            <Button x:Name="back"  HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="1" Grid.Row="2" Text="back"></Button>
+                <Button x:Name="up" HeightRequest="45" Pressed="CustomGripperPressed" Released="CustomGripperReleased" VerticalOptions="Start" Grid.Column="1" Grid.Row="0" Text="up" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000"></Button>
+                <Button x:Name="open" HeightRequest="100" Pressed="CustomGripperPressed" Released="CustomGripperReleased" Grid.Column="0" Grid.Row="0" Text="open" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000"></Button>
+                <Button x:Name="close" HeightRequest="100" Pressed="CustomGripperPressed" Released="CustomGripperReleased" Grid.Column="2" Grid.Row="0" Text="close" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000"></Button>
+                <Button x:Name="down"  HeightRequest="45" Pressed="CustomGripperPressed" Released="CustomGripperReleased" VerticalOptions="End" Grid.Column="1" Grid.Row="0" Text="down" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000"></Button>
+            </Grid>
+            <Label IsVisible="false" x:Name="moveInfoLabel" HorizontalOptions="Center"  TextColor="Black" Text="Obecna prędkość"></Label>
+            <Label IsVisible="false" x:Name="moveSpeedLabel" HorizontalOptions="Center"  TextColor="Black" Text="Ruch: 0.0"></Label>
+            <Label IsVisible="false" x:Name="rotSpeedLabel" HorizontalOptions="Center"  TextColor="Black" Text="Obrót: 0.0"></Label>
+            <Grid x:Name="Arrows" Margin="0,100,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="forward" HeightRequest="100" Pressed="CustomMovePressed" Released="CustomMoveReleased" Grid.Column="1" Grid.Row="0" Text="forward" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000"></Button>
+                <Button x:Name="left" HeightRequest="100" Pressed="CustomMovePressed" Released="CustomMoveReleased" Grid.Column="0" Grid.Row="1" Text="left" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000"></Button>
+                <Button x:Name="right" HeightRequest="100" Pressed="CustomMovePressed" Released="CustomMoveReleased" Grid.Column="2" Grid.Row="1" Text="right" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000"></Button>
+                <Button x:Name="back"  HeightRequest="100" Pressed="CustomMovePressed" Released="CustomMoveReleased" Grid.Column="1" Grid.Row="2" Text="back" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000"></Button>
 
 
-            <!--<ImageButton x:Name="forward" HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="1" Grid.Row="0" Background="White" Source="ArrowUp.png"></ImageButton>
+                <!--<ImageButton x:Name="forward" HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="1" Grid.Row="0" Background="White" Source="ArrowUp.png"></ImageButton>
             <ImageButton x:Name="left" HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="0" Grid.Row="1" Background="White" Source="ArrowLeft.png"></ImageButton>
             <ImageButton x:Name="right" HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="2" Grid.Row="1" Background="White" Source="ArrowRight.png"></ImageButton>
             <ImageButton x:Name="back"  HeightRequest="100" Pressed="CustomPressed" Released="CustomReleased" Grid.Column="1" Grid.Row="2" Background="White" Source="ArrowDown.png"></ImageButton>-->
-        </Grid>
-        <Button Margin="30,30,30,30" IsVisible="false" x:Name="Joystick" WidthRequest="300" HeightRequest="300">
-            <Button.Effects>
-                <tt:TouchEffect Capture="True" TouchAction="OnTouch"></tt:TouchEffect>
-            </Button.Effects>
-        </Button>
-    </StackLayout>
+            </Grid>
+            <Button Margin="30,30,30,30" IsVisible="false" x:Name="Joystick" WidthRequest="300" HeightRequest="300" BorderColor="{StaticResource Primary}" BorderWidth="2" BackgroundColor="#50000000">
+                <Button.Effects>
+                    <tt:TouchEffect Capture="True" TouchAction="OnMoveTouch"></tt:TouchEffect>
+                </Button.Effects>
+            </Button>
+        </StackLayout>
+    </AbsoluteLayout>
 </ContentPage>

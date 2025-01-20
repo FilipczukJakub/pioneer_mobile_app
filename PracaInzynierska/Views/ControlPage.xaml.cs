@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using PracaInzynierska.CustomElements;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using System.Threading;
@@ -19,6 +19,8 @@ using TouchTracking.Forms;
 using System.Drawing;
 using PracaInzynierska.Models;
 using System.Collections;
+using System.Linq;
+using PracaInzynierska.ViewModels;
 namespace PracaInzynierska.Views
 {
     public sealed partial class AboutPage : ContentPage
@@ -29,7 +31,9 @@ namespace PracaInzynierska.Views
         private double joystickWidth;
         private double joystickHeight;
         private double maxSpeed = 1.0;
-        private Thread pong_thread;
+        private string robotIp;
+        private CancellationTokenSource _backgroundTaskCancellationTokenSource;
+        private bool connecting = false;
         public static AboutPage GetInstance()
         {
             if (_instance == null)
@@ -41,71 +45,143 @@ namespace PracaInzynierska.Views
         public AboutPage()
         {
             InitializeComponent();
-            GetConnection();
-            speedLabel.Text = "Prędkość: " + maxSpeed;
+            _backgroundTaskCancellationTokenSource = new CancellationTokenSource();
+            CreateConnection();
 
         }
 
+        private void StopTasks()
+        {
+            _backgroundTaskCancellationTokenSource?.Cancel();
+            _backgroundTaskCancellationTokenSource.Dispose();
+            _backgroundTaskCancellationTokenSource = new CancellationTokenSource();
+        }
 
-        public async void GetConnection()
+        private async Task Disconnect()
+        {
+            StopTasks();
+            try
+            {
+                if (!Object.Equals(Client, null) && Client.State == WebSocketState.Open)
+                {
+                    await Client.CloseAsync(WebSocketCloseStatus.NormalClosure, "Reconnection", CancellationToken.None);
+                    Client.Dispose();
+                    Client = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public async void CreateConnection(ConnectionMode mode = ConnectionMode.Full)
+        {
+            if (!connecting)
+            {
+                connecting = true;
+                await Disconnect();
+                try
+                {
+
+                    robotIp = await BroadcastMessage();
+                    if (mode == ConnectionMode.Full || mode == ConnectionMode.Movement)
+                        await MovementConnection();
+                    cameraFeed.Source = $"http://{robotIp}:8767/index.html";
+                    AlertWindow("Sukces", "Nawiązano połączenie z robotem");
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    AlertWindow("UWAGA", "Nie zdołano pozyskać adresu robota\nSpróbuj zresetować robota");
+                }
+                connecting = false;
+            }
+            
+        }
+
+        private async void AlertWindow(string header, string message)
+        {
+            if (!_popUpVisible)
+            {
+                _popUpVisible = true;
+                await App.Current.MainPage.DisplayAlert(header, message, "Zamknij");
+            }
+            _popUpVisible = false;
+        }
+
+        private async Task<string> BroadcastMessage()
         {
             try
             {
                 int PORT = 12345;
                 UdpClient udpClient = new UdpClient();
                 udpClient.EnableBroadcast = true;
-                IPEndPoint broadcast_ip = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
+                IPEndPoint broadcastIp = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
                 IPEndPoint any_ip = new IPEndPoint(IPAddress.Any, 0);
                 var data = Encoding.ASCII.GetBytes("ip_request");
-                udpClient.Send(data, data.Length, broadcast_ip);
+                await udpClient.SendAsync(data, data.Length, broadcastIp);
                 udpClient.Client.ReceiveTimeout = 2000;
-                byte[] bytes = udpClient.Receive(ref any_ip);
-                string message = Encoding.ASCII.GetString(bytes);
-                Uri serverUri = new Uri($"ws://{message}:8765");
-                var client = new ClientWebSocket();
-                await client.ConnectAsync(serverUri, CancellationToken.None);
-                Client = client;
-                pong_thread = new Thread(new ThreadStart(Ping));
-                pong_thread.Start();
+                var result = udpClient.ReceiveAsync();
+                return Encoding.ASCII.GetString(result.Result.Buffer);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                if (!_popUpVisible)
-                {
-                    _popUpVisible = true;
-                    await App.Current.MainPage.DisplayAlert("UWAGA", "Nie zdołano nawiązać połączenia\nSpróbuj zresetować robota", "Zamknij");
-                }
-                    _popUpVisible = false;
+                Console.WriteLine(ex.Message);
+                AlertWindow("UWAGA", "Nie zdołano pozyskać adresu robota\nSpróbuj zresetować robota");
+                return null;
             }
         }
 
-        public async void Ping()
+        public async Task MovementConnection()
         {
             try
             {
-                Console.WriteLine("Ping started");
-                while (true)
+                Uri serverUri = new Uri($"ws://{robotIp}:8765");
+                var client = new ClientWebSocket();
+                await client.ConnectAsync(serverUri, _backgroundTaskCancellationTokenSource.Token);
+
+                Client = client;
+
+                _ = Task.Run(Ping, _backgroundTaskCancellationTokenSource.Token);
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                AlertWindow("UWAGA", "Nie zdołano nawiązać połączenia\nSpróbuj zresetować robota");
+            }  
+        }
+
+
+        public ImageSource ByteArrayToImageSource(byte[] imageData)
+        {
+            return ImageSource.FromStream(() => new MemoryStream(imageData));
+        }
+
+
+        public async Task Ping()
+        {
+            try
+            {
+                var cancellationToken = this._backgroundTaskCancellationTokenSource.Token;
+                var segment = new ArraySegment<byte>(new byte[1024]);
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    var segment = new ArraySegment<byte>(new byte[1024]);
-                    await Client.ReceiveAsync(segment,new CancellationTokenSource(20000).Token);
+                    try
+                    {
+                        await Client.ReceiveAsync(segment, cancellationToken);
+                    }
+                    catch (Exception ex) {
+                        break;
+
+                    }
                 }
             }
             catch (Exception ex)
             {
-                pong_thread.Abort();
+                Console.WriteLine(ex.Message);
+                AlertWindow("UWAGA", "System PING nie odpowiada");
             }
-        }
-        public void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
-        {
-            double value = e.NewValue;
-            maxSpeed = value;
-            speedLabel.Text = "Prędkość: " + maxSpeed;
-
-        }
-
-        public async void StartAvoiding()
-        {
-            SendMessage("message:start_avoiding");
         }
 
         async void SafetyStop(object sender, EventArgs e)
@@ -115,23 +191,19 @@ namespace PracaInzynierska.Views
             udpClient.EnableBroadcast = true;
             IPEndPoint broadcast_ip = new IPEndPoint(IPAddress.Parse("255.255.255.255"), PORT);
             var data = Encoding.ASCII.GetBytes("stop");
-            udpClient.Send(data, data.Length, broadcast_ip);
+            await udpClient.SendAsync(data, data.Length, broadcast_ip);
         }
-        async void SendMessage(String message)
+        void SendMessage(String message)
         {
             try
             {
                 var byteMessage = Encoding.UTF8.GetBytes(message);
                 var segment = new ArraySegment<byte>(byteMessage);
-                await Client.SendAsync(segment, WebSocketMessageType.Text, true, CancellationToken.None);
+                Client.SendAsync(segment, WebSocketMessageType.Text, true, CancellationToken.None);
             }catch(Exception ex)
             {
-                if (!_popUpVisible)
-                {
-                    _popUpVisible = true;
-                    await App.Current.MainPage.DisplayAlert("UWAGA", "Utracono połączenie z robotem\nSpróbuj ponownie się połączyć", "Zamknij");
-                }
-                _popUpVisible = false;
+                Console.WriteLine(ex.Message);
+                AlertWindow("UWAGA", "Utracono połączenie z robotem\nSpróbuj połączyć się ponownie");
             }
 
         }
@@ -149,16 +221,7 @@ namespace PracaInzynierska.Views
             joystickHeight = Joystick.HeightRequest;
         }
 
-        public void CustomClicked(object sender, EventArgs args)
-        {
-            
-            if(sender is Button button)
-            {
-                Console.WriteLine("Moved " + button.Text);
-            }
-        }
-
-        public void CustomPressed(object sender, EventArgs args)
+        public void CustomMovePressed(object sender, EventArgs args)
         {
             if (sender is Button button)
             {
@@ -180,21 +243,71 @@ namespace PracaInzynierska.Views
                 }
                 var jsonString = JsonConvert.SerializeObject(twist);
                 Console.WriteLine(jsonString);
-                SendMessage(jsonString);
+                SendMessage("move###" + jsonString);
             }
         }
 
-        public void CustomReleased(object sender, EventArgs args)
+        public void CustomMoveReleased(object sender, EventArgs args)
         {
             if (sender is Button button)
             {
                 Twist twist = new Twist();
                 var jsonString = JsonConvert.SerializeObject(twist);
-                SendMessage(jsonString);
+                SendMessage("move###" + jsonString);
             }
         }
 
-        public void OnTouch(object sender, TouchActionEventArgs args)
+        public void CustomGripperPressed(object sender, EventArgs args)
+        {
+            if (sender is Button button)
+            {
+                int command = 2;
+                switch (button.Text)
+                {
+                    case "up":
+                        command = 3;
+                        break;
+                    case "down":
+                        command = 4;
+                        break;
+                    case "open":
+                        command = 0;
+                        break;
+                    case "close":
+                        command = 1;
+                        break;
+                }
+                var jsonString = JsonConvert.SerializeObject(command);
+                SendMessage("gripper###" + jsonString);
+            }
+        }
+
+        public void CustomGripperReleased(object sender, EventArgs args)
+        {
+            if (sender is Button button)
+            {
+                int command = 2;
+                switch (button.Text)
+                {
+                    case "up":
+                        command = 5;
+                        break;
+                    case "down":
+                        command = 5;
+                        break;
+                    case "open":
+                        command = 2;
+                        break;
+                    case "close":
+                        command = 2;
+                        break;
+                }
+                var jsonString = JsonConvert.SerializeObject(command);
+                SendMessage("gripper###" + jsonString);
+            }
+        }
+
+        public void OnMoveTouch(object sender, TouchActionEventArgs args)
         {
             Twist twist = new Twist();
             if (args.Type != TouchActionType.Released)
@@ -215,7 +328,7 @@ namespace PracaInzynierska.Views
             moveSpeedLabel.Text = "Ruch: " + twist.Linear["x"].ToString() + (twist.Linear["x"] > 0 ? " (przód)" : " (tył)");
             rotSpeedLabel.Text = "Obrót: " + twist.Angular["z"].ToString() + (twist.Angular["z"] > 0 ? " (lewo)" : " (prawo)");
             var jsonString = JsonConvert.SerializeObject(twist);
-            SendMessage(jsonString);
+            SendMessage("move###" + jsonString);
         }
 
     }
